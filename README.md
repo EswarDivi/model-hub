@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+# How it Works
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Frontend
 
-## Available Scripts
+The frontend of the application is built using [React](https://reactjs.org/), a popular JavaScript library for building user interfaces. For styling, we use [Tailwind CSS](https://tailwindcss.com/), a utility-first CSS framework for rapidly building custom designs.
 
-In the project directory, you can run:
+# Backend
 
-### `npm start`
+The backend is built with [Node.js](https://nodejs.org/en/) and [Express.js](https://expressjs.com/), a minimal and flexible Node.js web application framework.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# **Database**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+We use MongoDB for general operations and Amazon S3 for storing model files, input files, and output files.
 
-### `npm test`
+# **Inference Server**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The inference server is a separate backend server deployed on [Modal](https://modal.com/). It receives input and model files from the database and returns the response to the frontend.
 
-### `npm run build`
+# **Social Interactions**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+We use [Disqus](https://disqus.com/) for social interactions. Each model has its own comment section based on the model token id.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# **Deployment**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The frontend and backend are both deployed on [Vercel](https://vercel.com/), a platform for static sites and Serverless Functions.
 
-### `npm run eject`
+# Overview
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```mermaid
+graph LR
+A[Frontend] -->|Request| B[Backend]
+B -->|Query| C[MongoDB]
+B -->|Store/Retrieve Files| D[S3]
+B -->|Inference Request| E[Modal Server]
+E -->|Inference Response| B
+A -->|Comments| F[Disqus]
+G[Vercel] -->|Deploy| A
+G -->|Deploy| B
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# System Design
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```mermaid
+graph TD
+    A[Frontend: React & Tailwind CSS] -->|Requests & Displays Data| B[Backend: Node & Express]
+    B -->|Data Management| C[Database]
+    C -.->|MongoDB: General Ops| D[MongoDB]
+    C -.->|S3: Model & File Storage| E[Amazon S3]
+    B -->|Handles Inference| F[Inference Server: Modal]
+    F -->|Data Processing & Response| A
+```
