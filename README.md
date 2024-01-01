@@ -36,6 +36,7 @@ E -->|Inference Response| B
 A -->|Comments| F[Disqus]
 G[Vercel] -->|Deploy| A
 G -->|Deploy| B
+
 ```
 
 # System Design
@@ -48,4 +49,5 @@ graph TD
     C -.->|S3: Model & File Storage| E[Amazon S3]
     B -->|Handles Inference| F[Inference Server: Modal]
     F -->|Data Processing & Response| A
+
 ```
